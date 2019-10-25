@@ -1,0 +1,903 @@
+variables
+{
+	global:
+		0: page
+}
+
+rule("Setup match")
+{
+	event
+	{
+		Ongoing - Global;
+	}
+
+	conditions
+	{
+		Has Spawned(Host Player) == True;
+	}
+
+	actions
+	{
+		Pause Match Time;
+		Set Match Time(0);
+		Set Global Variable(page, -1.000);
+		Create HUD Text(All Players(All Teams), Custom String("Page {0}/1", Add(Global Variable(page), 1), Null, Null), Null, Null,
+			Right, 1, Purple, White, White, Visible To and String, Visible Always);
+	}
+}
+
+rule("Setup player")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		All;
+	}
+
+	conditions
+	{
+		Has Spawned(Event Player) == True;
+	}
+
+	actions
+	{
+		Start Camera(Event Player, Vector(18, 125, 83), Vector(18, 125, 100), 0);
+		Set Status(Event Player, Null, Rooted, 9999);
+		Disallow Button(Event Player, Ultimate);
+		Disallow Button(Event Player, Ability 2);
+		Set Ultimate Ability Enabled(Event Player, False);
+		Set Ability 2 Enabled(Event Player, False);
+	}
+}
+
+rule("Host controls")
+{
+	event
+	{
+		Ongoing - Global;
+	}
+
+	conditions
+	{
+		Or(Is Button Held(Host Player, Ultimate), Or(Is Button Held(Host Player, Ability 2), Compare(Global Variable(page), ==, -1.000)))
+			== True;
+	}
+
+	actions
+	{
+		Destroy All Icons;
+		Modify Global Variable(page, Add, Subtract(1, Multiply(2, Is Button Held(Host Player, Ultimate))));
+		Skip If(Or(Compare(Global Variable(page), <, 0), Compare(Global Variable(page), >, 0)), 1);
+		Destroy All In-World Text;
+		Set Global Variable(page, Max(Min(Global Variable(page), 0), 0));
+		Skip If(Compare(Global Variable(page), <=, 0), 2);
+		Create Icon(Host Player, Vector(35.500, 125, 100), Arrow: Left, Visible To, Orange, False);
+		Create In-World Text(All Players(All Teams), String("Use Ultimate Ability", Null, Null, Null), Vector(36, 126, 100), 1,
+			Do Not Clip, Visible To and String, Orange, Visible Always);
+		Skip If(Compare(Global Variable(page), >=, 0), 2);
+		Create Icon(Host Player, Vector(0, 125, 100), Arrow: Right, Visible To, Orange, False);
+		Create In-World Text(All Players(All Teams), String("Use Ability 2", Null, Null, Null), Vector(0, 126, 100), 1, Do Not Clip,
+			Visible To and String, Orange, Visible Always);
+	}
+}
+rule("Script#1") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 0;
+		Has Spawned(Host Player) == True;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("NARRATOR:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Black screen with text; The sound of buzzing bees can be heard", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("According to all known laws", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("of aviation,", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("there is no way a bee", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("should be able to fly.", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Its wings are too small to get", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("its fat little body off the ground.", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The bee, of course, flies anyway", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("because bees don't care", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("what humans think is impossible.", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY BENSON:", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry is picking out a shirt", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Yellow, black. Yellow, black.", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Yellow, black. Yellow, black.", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Ooh, black and yellow!", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Let's shake it up a little.", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JANET BENSON:", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry! Breakfast is ready!", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Coming!", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Hang on a second.", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry uses his antenna like a phone", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Hello?", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM FLAYMAN:", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Through phone", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+	}
+}
+rule("Script#2") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 1;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("- Barry?", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Adam?", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Can you believe this is happening?", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- I can't. I'll pick you up.", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry flies down the stairs", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("MARTIN BENSON:", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Looking sharp.", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JANET:", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Use the stairs. Your father", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("paid good money for those.", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Sorry. I'm excited.", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("MARTIN:", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Here's the graduate.", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("We're very proud of you, son.", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("A perfect report card, all B's.", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JANET:", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Very proud.", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Rubs Barry's hair", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+	}
+}
+rule("Script#3") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 2;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Ma! I got a thing going here.", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JANET:", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- You got lint on your fuzz.", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Ow! That's me!", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JANET:", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Wave to us! We'll be in row 118,000.", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Bye!", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry flies out the door", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JANET:", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry, I told you,", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("stop flying in the house!", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry drives through the hive,and is waved at by Adam who is reading a newspaper", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Hey, Adam.", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Hey, Barry.", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Adam gets in Barry's car", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Is that fuzz gel?", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- A little. Special day, graduation.", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#4") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 3;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 118.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Never thought I'd make it.", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry pulls away from the house and continues driving", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Three days grade school,", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("three days high school...", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Those were awkward.", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Three days college. I'm glad I took", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("a day and hitchhiked around the hive.", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You did come back different.", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry and Adam pass by Artie, who is jogging", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ARTIE:", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Hi, Barry!", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Artie, growing a mustache? Looks good.", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Hear about Frankie?", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Yeah.", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#5") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 4;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- You going to the funeral?", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- No, I'm not going to his funeral.", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Everybody knows,", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("sting someone, you die.", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Don't waste it on a squirrel.", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Such a hothead.", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I guess he could have", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("just gotten out of the way.", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The car does a barrel roll on the loop-shaped bridge and lands on the highway", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I love this incorporating", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("an amusement park into our regular day.", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I guess that's why they say we don't need vacations.", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry parallel parks the car and together they fly over the graduating students", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Boy, quite a bit of pomp...", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("under the circumstances.", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry and Adam sit down and put on their hats", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Well, Adam, today we are men.", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- We are!", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Bee-men.", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#6") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 5;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Amen!", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY AND ADAM:", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Hallelujah!", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry and Adam both have a happy spasm", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ANNOUNCER:", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Students, faculty, distinguished bees,", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("please welcome Dean Buzzwell.", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("DEAN BUZZWELL:", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Welcome, New Hive Oity", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("graduating class of...", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("9:", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("That concludes our ceremonies.", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("And begins your career", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("at Honex Industries!", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Will we pick our job today?", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Adam and Barry get into a tour bus", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I heard it's just orientation.", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Tour buses rise out of the ground and the students are automatically loaded into the buses", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("TOUR GUIDE:", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Heads up! Here we go.", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#7") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 6;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("ANNOUNCER:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Keep your hands and antennas", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("inside the tram at all times.", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Wonder what it'll be like?", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- A little scary.", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("TOUR GUIDE:", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Welcome to Honex,", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("a division of Honesco", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("and a part of the Hexagon Group.", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("This is it!", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY AND ADAM:", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Wow.", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Wow.", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The bus drives down a road an on either side are the Bee's massive complicated Honey-making machines", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("TOUR GUIDE:", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("We know that you, as a bee,", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("have worked your whole life", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("to get to the point where you", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("can work for your whole life.", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#8") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 7;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("Honey begins when our valiant Pollen", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Jocks bring the nectar to the hive.", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Our top-secret formula", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("is automatically color-corrected,", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("scent-adjusted and bubble-contoured", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("into this soothing sweet syrup", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("with its distinctive", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("golden glow you know as...", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("EVERYONE ON BUS:", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Honey!", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The guide has been collecting honey into a bottle and she throws it into the crowd on the bus and it is caught by a girl in", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("the back", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- That girl was hot.", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- She's my cousin!", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- She is?", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Yes, we're all cousins.", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Right. You're right.", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("TOUR GUIDE:", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+	}
+}
+rule("Script#9") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 8;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("- At Honex, we constantly strive", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("to improve every aspect", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("of bee existence.", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("These bees are stress-testing", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("a new helmet technology.", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The bus passes by a Bee wearing a helmet who is being smashed into the ground with fly-swatters, newspapers and boots. He", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("lifts a thumbs up but you can hear him groan", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- What do you think he makes?", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Not enough.", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("TOUR GUIDE:", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Here we have our latest advancement,", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("the Krelman.", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("They pass by a turning wheel with Bees standing on pegs, who are each wearing a finger-shaped hat", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Wow, What does that do?", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("TOUR GUIDE:", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Catches that little strand of honey", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("that hangs after you pour it.", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Saves us millions.", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Intrigued", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Can anyone work on the Krelman?", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#10") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 9;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("TOUR GUIDE:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Of course. Most bee jobs are", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("small ones.", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("But bees know that every small job,", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("if it's done well, means a lot.", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("But choose carefully", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("because you'll stay in the job", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("you pick for the rest of your life.", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Everyone claps except for Barry", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The same job the rest of your life?", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I didn't know that.", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("What's the difference?", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("TOUR GUIDE:", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You'll be happy to know that bees,", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("as a species, haven't had one day off", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("in 27 million years.", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Upset", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("So you'll just work us to death?", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("We'll sure try.", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Everyone on the bus laughs except Barry. Barry and Adam are walking back home together", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Wow! That blew my mind!", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#11") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 10;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("\"What's the difference?\"", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("How can you say that?", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("One job forever?", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("That's an insane choice to have to make.", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I'm relieved. Now we only have", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("to make one decision in life.", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("But, Adam, how could they", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("never have told us that?", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Why would you question anything?", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("We're bees.", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("We're the most perfectly", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("functioning society on Earth.", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You ever think maybe things", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("work a little too well here?", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Like what? Give me one example.", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry and Adam stop walking and it is revealed to the audience that hundreds of cars are speeding by and narrowly missing", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("them in perfect unison", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+	}
+}
+rule("Script#12") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 11;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("I don't know. But you know", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("what I'm talking about.", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ANNOUNCER:", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Please clear the gate.", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Royal Nectar Force on approach.", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Wait a second. Check it out.", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The Pollen jocks fly in, circle around and landing in line", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Hey, those are Pollen Jocks!", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Wow.", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I've never seen them this close.", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("They know what it's like", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("outside the hive.", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Yeah, but some don't come back.", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("GIRL BEES:", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Hey, Jocks!", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Hi, Jocks!", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The Pollen Jocks hook up their backpacks to machines that pump the nectar to trucks, which drive away", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("LOU LO DUVA:", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You guys did great!", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#13") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 12;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("You're monsters!", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You're sky freaks!", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I love it!", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Punching the Pollen Jocks in joy", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I love it!", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- I wonder where they were.", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- I don't know.", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Their day's not planned.", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Outside the hive, flying who knows", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("where, doing who knows what.", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You can't just decide to be a Pollen", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Jock. You have to be bred for that.", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Right.", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry and Adam are covered in some pollen that floated off of the Pollen Jocks", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Look at that. That's more pollen", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("than you and I will see in a lifetime.", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("It's just a status symbol.", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Bees make too much of it.", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+	}
+}
+rule("Script#14") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 13;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("Perhaps. Unless you're wearing it", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("and the ladies see you wearing it.", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry waves at 2 girls standing a little away from them", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Those ladies?", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Aren't they our cousins too?", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Distant. Distant.", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Look at these two.", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #2:", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Couple of Hive Harrys.", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Let's have fun with them.", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("GIRL BEE #1:", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("It must be dangerous", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("being a Pollen Jock.", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Yeah. Once a bear pinned me", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("against a mushroom!", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("He had a paw on my throat,", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("and with the other, he was slapping me!", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Slaps Adam with his hand to represent his scenario", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+	}
+}
+rule("Script#15") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 14;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("GIRL BEE #2:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Oh, my!", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- I never thought I'd knock him out.", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("GIRL BEE #1:", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Looking at Adam", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("What were you doing during this?", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Obviously I was trying to alert the authorities.", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I can autograph that.", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The pollen jocks walk up to Barry and Adam, they pretend that Barry and Adam really are pollen jocks.", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("A little gusty out there today,", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("wasn't it, comrades?", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Yeah. Gusty.", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("We're hitting a sunflower patch", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("six miles from here tomorrow.", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Six miles, huh?", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#16") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 15;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Barry!", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #2:", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("A puddle jump for us,", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("but maybe you're not up for it.", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Maybe I am.", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- You are not!", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("We're going 0900 at J-Gate.", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("What do you think, buzzy-boy?", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Are you bee enough?", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I might be. It all depends", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("on what 0900 means.", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The scene cuts to Barry looking out on the hive-city from his balcony at night", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("MARTIN:", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Hey, Honex!", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Dad, you surprised me.", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("MARTIN:", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+	}
+}
+rule("Script#17") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 16;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("You decide what you're interested in?", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Well, there's a lot of choices.", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- But you only get one.", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Do you ever get bored", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("doing the same job every day?", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("MARTIN:", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Son, let me tell you about stirring.", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You grab that stick, and you just", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("move it around, and you stir it around.", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You get yourself into a rhythm.", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("It's a beautiful thing.", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You know, Dad,", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("the more I think about it,", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("maybe the honey field", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("just isn't right for me.", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("MARTIN:", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You were thinking of what,", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("making balloon animals?", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("That's a bad job", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("for a guy with a stinger.", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Janet, your son's not sure", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("he wants to go into honey!", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JANET:", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+	}
+}
+rule("Script#18") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 17;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("- Barry, you are so funny sometimes.", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- I'm not trying to be funny.", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("MARTIN:", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You're not funny! You're going", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("into honey. Our son, the stirrer!", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JANET:", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- You're gonna be a stirrer?", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- No one's listening to me!", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("MARTIN:", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Wait till you see the sticks I have.", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I could say anything right now.", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I'm gonna get an ant tattoo!", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry's parents don't listen to him and continue to ramble on", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("MARTIN:", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Let's open some honey and celebrate!", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Maybe I'll pierce my thorax.", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Shave my antennae.", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Shack up with a grasshopper. Get", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#19") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 18;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("a gold tooth and call everybody \"dawg\"!", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JANET:", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I'm so proud.", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The scene cuts to Barry and Adam waiting in line to get a job", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- We're starting work today!", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Today's the day.", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Come on! All the good jobs", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("will be gone.", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Yeah, right.", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JOB LISTER:", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Pollen counting, stunt bee, pouring,", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("stirrer, front desk, hair removal...", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BEE IN FRONT OF LINE:", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Is it still available?", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JOB LISTER:", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Hang on. Two left!", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("One of them's yours! Congratulations!", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Step to the side.", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#20") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 19;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- What'd you get?", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BEE IN FRONT OF LINE:", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Picking crud out. Stellar!", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("He walks away", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Wow!", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JOB LISTER:", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Couple of newbies?", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Yes, sir! Our first day! We are ready!", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JOB LISTER:", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Make your choice.", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Adam and Barry look up at the job board. There are hundreds of constantly changing panels that contain available or", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("unavailable jobs. It looks very confusing", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- You want to go first?", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- No, you go.", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Oh, my. What's available?", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#21") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 20;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("JOB LISTER:", Null, Null, Null), Vector(18, 118.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Restroom attendant's open,", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("not for the reason you think.", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Any chance of getting the Krelman?", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JOB LISTER:", Null, Null, Null), Vector(18, 129.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Sure, you're on.", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Puts the Krelman finger-hat on Adam's head", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Suddenly the sign for Krelman closes out", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I'm sorry, the Krelman just closed out.", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Takes Adam's hat off", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Wax monkey's always open.", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The Krelman opened up again.", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("What happened?", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("JOB LISTER:", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("A bee died. Makes an opening. See?", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("He's dead. Another dead one.", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Deady. Deadified. Two more dead.", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Dead from the neck up.", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Dead from the neck down. That's life!", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Oh, this is so hard!", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry remembers what the Pollen Jock offered him and he flies off", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Heating, cooling,", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+	}
+}
+rule("Script#22") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 21;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("stunt bee, pourer, stirrer,", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("humming, inspector number seven,", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("lint coordinator, stripe supervisor,", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("mite wrangler. Barry, what", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("do you think I should... Barry?", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Adam turns around and sees Barry flying away", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry!", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK:", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("All right, we've got the sunflower patch", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("in quadrant nine...", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Through phone", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("What happened to you?", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Where are you?", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- I'm going out.", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Out? Out where?", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Out there.", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Oh, no!", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+	}
+}
+rule("Script#23") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 22;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("I have to, before I go", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("to work for the rest of my life.", Null, Null, Null), Vector(18, 132.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("ADAM:", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("You're gonna die! You're crazy!", Null, Null, Null), Vector(18, 131.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry hangs up", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Hello?", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #2:", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Another call coming in.", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("If anyone's feeling brave,", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("there's a Korean deli on 83rd", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("that gets their roses today.", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Hey, guys.", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1 :", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Look at that.", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #2:", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Isn't that the kid we saw yesterday?", Null, Null, Null), Vector(18, 122.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("LOU LO DUVA:", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Hold it, son, flight deck's restricted.", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("It's OK, Lou. We're gonna take him up.", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Puts hand on Barry's shoulder", Null, Null, Null), Vector(18, 119.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+	}
+}
+rule("Script#24") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 23;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("LOU LO DUVA:", Null, Null, Null), Vector(18, 118.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("A pollen jock puts on some high tech goggles that shows flowers similar to heat sink goggles.", Null, Null, Null), Vector(18, 126.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK:", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("This is Blue Leader.", Null, Null, Null), Vector(18, 124.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("We have roses visual.", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Bring it around 30 degrees and hold.", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Roses!", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("30 degrees, roger. Bringing it around.", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Stand to the side, kid.", Null, Null, Null), Vector(18, 121.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("It's got a bit of a kick.", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("The pollen jock fires a high-tech gun at the flower, shooting tubes that suck up the nectar from the flower and collects it", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("into a pouch on the gun", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+	}
+}
+rule("Script#25") {
+	event {
+		Ongoing - Global;
+	}
+	conditions {
+		Global Variable(page) == 24;
+	}
+	actions {
+		Create In-World Text(All Players(All Teams), Custom String("That is one nectar collector!", Null, Null, Null), Vector(18, 133.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 132.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- Ever see pollination up close?", Null, Null, Null), Vector(18, 131.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 130.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("- No, sir.", Null, Null, Null), Vector(18, 130.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 129.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Barry and the Pollen jock fly over the field, the pollen jock sprinkles pollen as he goes", Null, Null, Null), Vector(18, 128.50, 100), 1.250, Do Not Clip, String, Yellow, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I pick up some pollen here, sprinkle it", Null, Null, Null), Vector(18, 128.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("over here. Maybe a dash over there,", Null, Null, Null), Vector(18, 127.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("a pinch on that one.", Null, Null, Null), Vector(18, 127.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("See that? It's a little bit of magic.", Null, Null, Null), Vector(18, 126.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 125.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("That's amazing. Why do we do that?", Null, Null, Null), Vector(18, 125.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 124.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("That's pollen power. More pollen, more", Null, Null, Null), Vector(18, 123.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("flowers, more nectar, more honey for us.", Null, Null, Null), Vector(18, 123.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("BARRY:", Null, Null, Null), Vector(18, 122.00, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("Cool.", Null, Null, Null), Vector(18, 121.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #1:", Null, Null, Null), Vector(18, 120.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("I'm picking up a lot of bright yellow.", Null, Null, Null), Vector(18, 120.00, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("could be daisies. Don't we need those?", Null, Null, Null), Vector(18, 119.50, 100), 1.250, Do Not Clip, String, White, Default Visibility);
+		Create In-World Text(All Players(All Teams), Custom String("POLLEN JOCK #2:", Null, Null, Null), Vector(18, 118.50, 100), 1.250, Do Not Clip, String, Lime Green, Default Visibility);
+	}
+}

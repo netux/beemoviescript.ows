@@ -1,0 +1,83 @@
+variables
+{
+	global:
+		0: page
+}
+
+rule("Setup match")
+{
+	event
+	{
+		Ongoing - Global;
+	}
+
+	conditions
+	{
+		Has Spawned(Host Player) == True;
+	}
+
+	actions
+	{
+		Pause Match Time;
+		Set Match Time(0);
+		Set Global Variable(page, -1.000);
+		Create HUD Text(All Players(All Teams), Custom String("Page {0}/$page_count_human", Add(Global Variable(page), 1), Null, Null), Null, Null,
+			Right, 1, Purple, White, White, Visible To and String, Visible Always);
+	}
+}
+
+rule("Setup player")
+{
+	event
+	{
+		Ongoing - Each Player;
+		All;
+		All;
+	}
+
+	conditions
+	{
+		Has Spawned(Event Player) == True;
+	}
+
+	actions
+	{
+		Start Camera(Event Player, Vector(18, 125, 83), Vector(18, 125, 100), 0);
+		Set Status(Event Player, Null, Rooted, 9999);
+		Disallow Button(Event Player, Ultimate);
+		Disallow Button(Event Player, Ability 2);
+		Set Ultimate Ability Enabled(Event Player, False);
+		Set Ability 2 Enabled(Event Player, False);
+	}
+}
+
+rule("Host controls")
+{
+	event
+	{
+		Ongoing - Global;
+	}
+
+	conditions
+	{
+		Or(Is Button Held(Host Player, Ultimate), Or(Is Button Held(Host Player, Ability 2), Compare(Global Variable(page), ==, -1.000)))
+			== True;
+	}
+
+	actions
+	{
+		Destroy All Icons;
+		Modify Global Variable(page, Add, Subtract(1, Multiply(2, Is Button Held(Host Player, Ultimate))));
+		Skip If(Or(Compare(Global Variable(page), <, 0), Compare(Global Variable(page), >, $page_count)), 1);
+		Destroy All In-World Text;
+		Set Global Variable(page, Max(Min(Global Variable(page), $page_count), 0));
+		Skip If(Compare(Global Variable(page), <=, 0), 2);
+		Create Icon(Host Player, Vector(35.500, 125, 100), Arrow: Left, Visible To, Orange, False);
+		Create In-World Text(All Players(All Teams), String("Use Ultimate Ability", Null, Null, Null), Vector(36, 126, 100), 1,
+			Do Not Clip, Visible To and String, Orange, Visible Always);
+		Skip If(Compare(Global Variable(page), >=, $page_count), 2);
+		Create Icon(Host Player, Vector(0, 125, 100), Arrow: Right, Visible To, Orange, False);
+		Create In-World Text(All Players(All Teams), String("Use Ability 2", Null, Null, Null), Vector(0, 126, 100), 1, Do Not Clip,
+			Visible To and String, Orange, Visible Always);
+	}
+}
