@@ -3,6 +3,8 @@
 script.pdf taken from [scripts.com](https://www.scripts.com/script/bee_movie_313). All credits due to the authors in there.
 
 
+![First page](resources/first_page.png)
+
 ## How to Read
 1. Create a custom game in Overwatch 1.42+
 2. Set Gamemode to Skirmish and only toggle on the map Illios
