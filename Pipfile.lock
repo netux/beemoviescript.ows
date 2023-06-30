@@ -18,11 +18,11 @@
     "default": {
         "pypdf2": {
             "hashes": [
-                "sha256:9a5abaf8c5684880082f011d43c317bcc967596edd2fc40529cbba2cff57552d",
-                "sha256:e28f902f2f0a1603ea95ebe21dff311ef09be3d0f0ef29a3e44a932729564385"
+                "sha256:5e29ffaf2efcfb77c25206e3b8df517a18af84e64ebe1b3a93abac8d01176374",
+                "sha256:5f7937fd94ba387a2a241db8858770e53091d8ffab9922512c0bf48e3f4cc615"
             ],
             "index": "pypi",
-            "version": "==1.26.0"
+            "version": "==1.27.9"
         }
     },
     "develop": {}
